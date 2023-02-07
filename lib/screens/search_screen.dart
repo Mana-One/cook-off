@@ -1,3 +1,4 @@
+import '../widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -5,11 +6,11 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        "Search",
-        style: Theme.of(context).textTheme.headline2,
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SearchBar(),
+      ],
     );
   }
 }
