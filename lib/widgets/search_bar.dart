@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screens/filters_screen.dart';
+
 class SearchBar extends StatelessWidget {
   SearchBar({super.key});
   final TextEditingController _controller = TextEditingController();
@@ -38,10 +40,14 @@ class SearchBar extends StatelessWidget {
               Icons.filter_list,
               color: Colors.grey,
             ),
-            onPressed: () => {},
+            onPressed: () => _goToFiltersScreen(context),
           ),
         ),
       ],
     );
+  }
+
+  void _goToFiltersScreen(BuildContext context) {
+    Navigator.of(context).pushNamed(FiltersScreen.routeName);
   }
 }
