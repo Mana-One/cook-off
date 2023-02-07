@@ -3,19 +3,19 @@ import 'package:cook_off/screens/search_screen.dart';
 import 'package:cook_off/screens/shopping_list_screen.dart';
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   final String title;
 
-  const MyHomePage({
+  const HomeScreen({
     super.key,
     required this.title,
   });
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   int _currentScreenIndex = 0;
   final List<Widget> _screens = [
     const SearchScreen(),

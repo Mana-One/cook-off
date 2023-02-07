@@ -1,7 +1,6 @@
+import 'package:cook_off/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-import 'screens/home.dart';
 
 Future<void> main() async {
   await dotenv.load();
@@ -19,7 +18,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
-      home: const MyHomePage(title: 'Cook off'),
+      routes: AppRouter.routes(),
+      onGenerateRoute: AppRouter.getRouter,
     );
   }
 }
