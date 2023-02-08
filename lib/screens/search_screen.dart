@@ -1,3 +1,5 @@
+import 'package:cook_off/widgets/search_filter_list.dart';
+
 import '../widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +12,7 @@ class SearchScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SearchBar(),
+        const SearchFilterList(),
       ],
     );
   }

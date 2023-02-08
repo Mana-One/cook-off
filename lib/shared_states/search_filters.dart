@@ -1,16 +1,16 @@
-import 'package:riverpod/riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SearchFiltersNotifier extends StateNotifier<List<String>> {
   SearchFiltersNotifier() : super([]);
 
-  void addCuisineTypes(List<String> additionalCuisineTypes) {
+  void addFilters(List<String> additionalFilters) {
     state = [
       ...state,
-      ...additionalCuisineTypes,
+      ...additionalFilters,
     ];
   }
 
-  void removeCuisineType(String removedCuisineType) {
+  void removeFilter(String removedCuisineType) {
     List<String> currentCuisineTypes = state;
     currentCuisineTypes.remove(removedCuisineType);
 
