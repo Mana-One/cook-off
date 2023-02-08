@@ -2,11 +2,27 @@ import 'package:flutter/material.dart';
 
 import '../screens/filters_screen.dart';
 
-class SearchBar extends StatelessWidget {
-  SearchBar({super.key});
+class SearchBar extends StatefulWidget {
   final TextEditingController _controller = TextEditingController();
+  SearchBar({super.key});
 
-  // final List<String> _cuisineTypes = [];
+  @override
+  State<SearchBar> createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  bool _isTextClearable = false;
+
+  @override
+  void initState() {
+    widget._controller.addListener(() {
+      setState(() {
+        _isTextClearable = widget._controller.text.isNotEmpty;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -22,14 +38,11 @@ class SearchBar extends StatelessWidget {
         ),
         Expanded(
           child: TextField(
-            controller: _controller,
+            controller: widget._controller,
             decoration: InputDecoration(
               border: InputBorder.none,
               hintText: 'Recipe name',
-              suffixIcon: IconButton(
-                onPressed: _controller.clear,
-                icon: const Icon(Icons.clear),
-              ),
+              suffixIcon: _showClearButton(),
             ),
           ),
         ),
@@ -49,5 +62,15 @@ class SearchBar extends StatelessWidget {
 
   void _goToFiltersScreen(BuildContext context) {
     Navigator.of(context).pushNamed(FiltersScreen.routeName);
+  }
+
+  Widget? _showClearButton() {
+    if (!_isTextClearable) {
+      return null;
+    }
+    return IconButton(
+      onPressed: widget._controller.clear,
+      icon: const Icon(Icons.clear),
+    );
   }
 }
