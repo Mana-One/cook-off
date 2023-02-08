@@ -12,12 +12,16 @@ class SearchFilterSelector extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<String> activeFilters = ref.watch(searchFiltersProvider);
+    bool isSelected = ref.watch(
+      searchFiltersProvider.select(
+        (s) => s.contains(name),
+      ),
+    );
 
     return ListTile(
       title: Text(name),
       trailing: Checkbox(
-        value: activeFilters.contains(name),
+        value: isSelected,
         onChanged: (value) => _toggleActiveFilter(value ?? false, ref),
       ),
     );

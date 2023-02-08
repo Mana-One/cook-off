@@ -1,3 +1,4 @@
+import 'package:cook_off/shared_states/search_filters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -45,26 +46,38 @@ class FiltersScreen extends ConsumerWidget {
       body: Column(
         children: [
           Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.only(
-                top: 10,
-                left: 10,
-                right: 10,
-                bottom: 20,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: ListView.separated(
+                padding: const EdgeInsets.all(10),
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index) => SearchFilterSelector(
+                  name: filters[index],
+                ),
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 5,
+                ),
+                itemCount: filters.length,
               ),
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, index) => SearchFilterSelector(
-                name: filters[index],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+            child: ElevatedButton(
+              onPressed: () => _clearFilters(ref),
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size.fromHeight(50),
               ),
-              separatorBuilder: (context, index) => const SizedBox(
-                height: 5,
-              ),
-              itemCount: filters.length,
+              child: const Text('Clear filters'),
             ),
           ),
         ],
       ),
     );
+  }
+
+  void _clearFilters(WidgetRef ref) {
+    ref.read(searchFiltersProvider.notifier).replaceFilters([]);
   }
 
   void _goBack(BuildContext context) {
