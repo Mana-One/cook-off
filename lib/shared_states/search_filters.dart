@@ -3,10 +3,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class SearchFiltersNotifier extends StateNotifier<List<String>> {
   SearchFiltersNotifier() : super([]);
 
-  void addFilters(List<String> additionalFilters) {
+  List<String> get activeFilters => state;
+
+  void replaceFilters(List<String> newFilters) {
+    state = [
+      ...newFilters,
+    ];
+  }
+
+  void addFilter(String newFilter) {
+    if (state.contains(newFilter)) {
+      return;
+    }
     state = [
       ...state,
-      ...additionalFilters,
+      newFilter,
     ];
   }
 

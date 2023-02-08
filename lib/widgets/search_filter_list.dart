@@ -21,11 +21,9 @@ class SearchFilterList extends ConsumerWidget {
         itemBuilder: (context, index) => SearchFilterItem(
           name: activeFilters[index],
         ),
-        separatorBuilder: (context, index) {
-          return const SizedBox(
-            width: 5,
-          );
-        },
+        separatorBuilder: (context, index) => const SizedBox(
+          width: 5,
+        ),
         itemCount: activeFilters.length,
       ),
     );
