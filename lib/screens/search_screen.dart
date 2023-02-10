@@ -1,15 +1,21 @@
+import 'package:cook_off/widgets/recipe_list.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/search_filter_list.dart';
+import '../widgets/search_bar.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        "Search",
-        style: Theme.of(context).textTheme.headline2,
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SearchBar(),
+        const SearchFilterList(),
+        const RecipeList(),
+      ],
     );
   }
 }

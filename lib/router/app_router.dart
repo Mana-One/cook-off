@@ -1,3 +1,4 @@
+import 'package:cook_off/screens/filters_screen.dart';
 import 'package:cook_off/screens/not_found_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,7 @@ class AppRouter {
   static Map<String, Widget Function(BuildContext context)> routes() {
     return {
       '/': (BuildContext context) => const HomeScreen(title: 'Cook off'),
+      FiltersScreen.routeName: (BuildContext context) => FiltersScreen(),
     };
   }
 

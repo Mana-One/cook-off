@@ -1,7 +1,8 @@
-import 'package:cook_off/screens/favorites_screen.dart';
-import 'package:cook_off/screens/search_screen.dart';
-import 'package:cook_off/screens/shopping_list_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../screens/favorites_screen.dart';
+import '../screens/search_screen.dart';
+import '../screens/shopping_list_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String title;
