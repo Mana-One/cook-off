@@ -1,7 +1,7 @@
-import 'package:cook_off/providers/search_query.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../providers/search_query.dart';
 import '../screens/filters_screen.dart';
 
 class SearchBar extends ConsumerWidget {
@@ -10,7 +10,9 @@ class SearchBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final query = ref.read(searchQueryProvider.notifier);
+    final isClearable = ref.watch(
+      searchQueryProvider.select((value) => value.isNotEmpty),
+    );
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -29,9 +31,9 @@ class SearchBar extends ConsumerWidget {
             decoration: InputDecoration(
               border: InputBorder.none,
               hintText: 'Recipe name',
-              suffixIcon: _showClearButton(query),
+              suffixIcon: _showClearButton(isClearable, ref),
             ),
-            onChanged: (value) => query.replaceQuery(value),
+            onChanged: (value) => _onInputChanged(value, ref),
           ),
         ),
         Padding(
@@ -48,16 +50,23 @@ class SearchBar extends ConsumerWidget {
     );
   }
 
+  void _onInputChanged(String value, WidgetRef ref) {
+    ref.read(searchQueryProvider.notifier).replaceQuery(value);
+  }
+
   void _goToFiltersScreen(BuildContext context) {
     Navigator.of(context).pushNamed(FiltersScreen.routeName);
   }
 
-  Widget? _showClearButton(SearchQueryNotifier query) {
-    if (query.isEmpty()) {
+  Widget? _showClearButton(bool isClearable, WidgetRef ref) {
+    if (!isClearable) {
       return null;
     }
     return IconButton(
-      onPressed: _controller.clear,
+      onPressed: () {
+        _controller.clear();
+        ref.read(searchQueryProvider.notifier).replaceQuery('');
+      },
       icon: const Icon(Icons.clear),
     );
   }
