@@ -18,7 +18,6 @@ class RecipeItem extends ConsumerWidget {
         borderRadius: BorderRadius.circular(25),
       ),
       margin: const EdgeInsets.only(top: 20, left: 40, right: 40),
-      // color: Theme.of(context).colorScheme.surfaceVariant,
       child: Expanded(
         child: IntrinsicWidth(
           child: Column(
@@ -33,8 +32,9 @@ class RecipeItem extends ConsumerWidget {
                 ),
                 child: CachedNetworkImage(
                   imageUrl: recipe.imageUrl,
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                   fit: BoxFit.fitWidth,
                 ),
