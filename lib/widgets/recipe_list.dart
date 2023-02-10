@@ -19,12 +19,9 @@ class RecipeList extends ConsumerWidget {
             return const Center(child: Text('No match!'));
           }
           return Expanded(
-            child: ListView.separated(
+            child: ListView.builder(
               itemBuilder: (context, index) =>
                   RecipeItem(recipe: recipeList[index]),
-              separatorBuilder: (context, index) => const SizedBox(
-                height: 5,
-              ),
               itemCount: recipeList.length,
             ),
           );
@@ -35,7 +32,7 @@ class RecipeList extends ConsumerWidget {
           );
         }
 
-        return const Center(child: Text('Loading'));
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }
