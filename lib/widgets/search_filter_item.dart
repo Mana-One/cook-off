@@ -1,6 +1,7 @@
-import 'package:cook_off/shared_states/search_filters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../providers/search_filters.dart';
 
 class SearchFilterItem extends ConsumerWidget {
   final String name;

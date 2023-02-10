@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../shared_states/search_filters.dart';
+import '../providers/search_filters.dart';
 
 class SearchFilterSelector extends ConsumerWidget {
   final String name;

@@ -1,7 +1,7 @@
-import 'package:cook_off/widgets/search_filter_list.dart';
-
-import '../widgets/search_bar.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/search_filter_list.dart';
+import '../widgets/search_bar.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
