@@ -1,30 +1,17 @@
+import 'package:cook_off/providers/search_query.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../screens/filters_screen.dart';
 
-class SearchBar extends StatefulWidget {
+class SearchBar extends ConsumerWidget {
   final TextEditingController _controller = TextEditingController();
   SearchBar({super.key});
 
   @override
-  State<SearchBar> createState() => _SearchBarState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final query = ref.read(searchQueryProvider.notifier);
 
-class _SearchBarState extends State<SearchBar> {
-  bool _isTextClearable = false;
-
-  @override
-  void initState() {
-    widget._controller.addListener(() {
-      setState(() {
-        _isTextClearable = widget._controller.text.isNotEmpty;
-      });
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,12 +25,13 @@ class _SearchBarState extends State<SearchBar> {
         ),
         Expanded(
           child: TextField(
-            controller: widget._controller,
+            controller: _controller,
             decoration: InputDecoration(
               border: InputBorder.none,
               hintText: 'Recipe name',
-              suffixIcon: _showClearButton(),
+              suffixIcon: _showClearButton(query),
             ),
+            onChanged: (value) => query.replaceQuery(value),
           ),
         ),
         Padding(
@@ -64,12 +52,12 @@ class _SearchBarState extends State<SearchBar> {
     Navigator.of(context).pushNamed(FiltersScreen.routeName);
   }
 
-  Widget? _showClearButton() {
-    if (!_isTextClearable) {
+  Widget? _showClearButton(SearchQueryNotifier query) {
+    if (query.isEmpty()) {
       return null;
     }
     return IconButton(
-      onPressed: widget._controller.clear,
+      onPressed: _controller.clear,
       icon: const Icon(Icons.clear),
     );
   }

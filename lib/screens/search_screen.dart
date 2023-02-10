@@ -1,3 +1,4 @@
+import 'package:cook_off/widgets/recipe_list.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/search_filter_list.dart';
@@ -13,6 +14,7 @@ class SearchScreen extends StatelessWidget {
       children: [
         SearchBar(),
         const SearchFilterList(),
+        const RecipeList(),
       ],
     );
   }
