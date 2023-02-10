@@ -21,9 +21,23 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: const MaterialColor(
+          0xFF945FF1,
+          {
+            50: Color.fromRGBO(148, 95, 241, .1),
+            100: Color.fromRGBO(148, 95, 241, .2),
+            200: Color.fromRGBO(148, 95, 241, .3),
+            300: Color.fromRGBO(148, 95, 241, .4),
+            400: Color.fromRGBO(148, 95, 241, .5),
+            500: Color.fromRGBO(148, 95, 241, .6),
+            600: Color.fromRGBO(148, 95, 241, .7),
+            700: Color.fromRGBO(148, 95, 241, .8),
+            800: Color.fromRGBO(148, 95, 241, .9),
+            900: Color.fromRGBO(148, 95, 241, 1),
+          },
+        ),
         chipTheme: const ChipThemeData(
-          backgroundColor: Color.fromARGB(255, 148, 95, 241),
+          backgroundColor: Color.fromRGBO(148, 95, 241, 1),
           deleteIconColor: Colors.white,
           labelStyle: TextStyle(
             color: Colors.white,
