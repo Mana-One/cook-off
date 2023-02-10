@@ -1,26 +1,31 @@
+import 'package:cook_off/providers/recipes.dart';
+import 'package:cook_off/widgets/recipe_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../providers/search_input.dart';
 
 class RecipeList extends ConsumerWidget {
   const RecipeList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final inputFuture = ref.watch(searchInputProvider.future);
+    final recipes = ref.watch(recipesProvider.future);
 
     return FutureBuilder(
-      future: inputFuture,
+      future: recipes,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          final currentInput = snapshot.data;
-          if (currentInput == null || currentInput.isEmpty()) {
-            return const Center(child: Text('Empty input !'));
+          final recipeList = snapshot.data;
+          if (recipeList == null || recipeList.isEmpty) {
+            return const Center(child: Text('No match!'));
           }
-          return Center(
-            child: Text(
-              '${currentInput.query} | filters: ${currentInput.filters.length}',
+          return Expanded(
+            child: ListView.separated(
+              itemBuilder: (context, index) =>
+                  RecipeItem(recipe: recipeList[index]),
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 5,
+              ),
+              itemCount: recipeList.length,
             ),
           );
         }
