@@ -113,6 +113,7 @@ class ShoppingListScreen extends ConsumerWidget {
                   ref
                       .read(shoppingListProvider.notifier)
                       .removeIngredient(ingredientList[index]);
+                  ref.invalidate(shoppingListDataProvider);
                 },
                 child: ShoppingItem(ingredient: ingredientList[index]),
               ),
