@@ -11,38 +11,12 @@ class ShoppingListScreen extends StatefulWidget {
 }
 
 class _ShoppingListScreenState extends State<ShoppingListScreen> {
-  final dbHelper = ShoppingListDB.instance;
+  final dbHelper = ShoppingListDB();
   List<Ingredient> ingredients = [];
 
   @override
   void initState() {
     super.initState();
-    dbHelper.upsert(Ingredient(
-        id: 1,
-        name: "chicken",
-        quantity: 2.0,
-        imageUrl:
-            "https://www.edamam.com/food-img/694/6943ea510918c6025795e8dc6e6eaaeb.jpg",
-        measure: "gram",
-        weight: 1000.0));
-
-    dbHelper.upsert(Ingredient(
-        id: 1,
-        name: "chicken",
-        quantity: 2.0,
-        imageUrl:
-            "https://www.edamam.com/food-img/694/6943ea510918c6025795e8dc6e6eaaeb.jpg",
-        measure: "gram",
-        weight: 10.0));
-
-    dbHelper.upsert(Ingredient(
-        id: 1,
-        name: "chicken",
-        quantity: 3.0,
-        imageUrl:
-            "https://www.edamam.com/food-img/694/6943ea510918c6025795e8dc6e6eaaeb.jpg",
-        measure: "gram",
-        weight: 10.0));
 
     _retrieveIngredients();
   }
@@ -51,8 +25,16 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
   Widget build(BuildContext context) {
     if (ingredients.isNotEmpty) {
       return ListView.builder(
-        itemBuilder: (context, index) =>
-            ShoppingItem(ingredient: ingredients[index]),
+        itemBuilder: (context, index) => Dismissible(
+          key: UniqueKey(),
+          onDismissed: (DismissDirection direction) {
+            setState(() {
+              _removeIngredient(ingredients[index]);
+              ingredients.removeAt(index);
+            });
+          },
+          child: ShoppingItem(ingredient: ingredients[index]),
+        ),
         itemCount: ingredients.length,
       );
     }
@@ -70,14 +52,12 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
     });
   }
 
-  void addIngredient(Ingredient ingredient) {
-    dbHelper.insert(ingredient);
+  void addIngredient(Ingredient ingredient) async {
+    await dbHelper.insert(ingredient);
+  }
+
+  Future<void> _removeIngredient(Ingredient ingredient) async {
+    int res = await dbHelper.delete(ingredient.id);
+    print(res);
   }
 }
-
-/*
- floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
-*/

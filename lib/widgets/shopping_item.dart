@@ -28,24 +28,24 @@ class ShoppingItem extends ConsumerWidget {
                 width: 10,
               ),
               Text('${ingredient.quantity}'),
-              const SizedBox(
-                width: 10,
-              ),
-              Text((() {
-                if (ingredient.weight != null) {
-                  return "${ingredient.weight}";
-                }
-                return "";
-              })()),
-              const SizedBox(
-                width: 10,
-              ),
-              Text((() {
-                if (ingredient.measure != null) {
-                  return "${ingredient.measure}";
-                }
-                return "";
-              })()),
+              // const SizedBox(
+              //   width: 10,
+              // ),
+              // Text((() {
+              //   if (ingredient.weight != null) {
+              //     return "${ingredient.weight}";
+              //   }
+              //   return "";
+              // })()),
+              // const SizedBox(
+              //   width: 10,
+              // ),
+              // Text((() {
+              //   if (ingredient.measure != null) {
+              //     return "${ingredient.measure}";
+              //   }
+              //   return "";
+              // })()),
             ],
           )
         ],

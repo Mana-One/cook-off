@@ -1,5 +1,5 @@
 class Ingredient {
-  final int? id;
+  final String id;
   final String name;
   final double quantity;
   final String? measure;
@@ -7,7 +7,7 @@ class Ingredient {
   final double? weight;
 
   Ingredient({
-    this.id,
+    required this.id,
     required this.name,
     required this.quantity,
     this.measure,
@@ -26,7 +26,7 @@ class Ingredient {
     };
   }
 
-  static Ingredient fromMap(Map<String, dynamic> map) {
+  static Ingredient fromMap(Map<dynamic, dynamic> map) {
     return Ingredient(
       id: map['id'],
       name: map['name'],
@@ -39,8 +39,6 @@ class Ingredient {
 
   @override
   String toString() {
-    return 'Ingredient{name: $name, quantity: $quantity, imageUrl: $imageUrl, measure: $measure,weight: $weight}';
+    return 'Ingredient{id: $id, name: $name, quantity: $quantity, imageUrl: $imageUrl, measure: $measure,weight: $weight}';
   }
-
-  onQuantityChanged(double d) {}
 }
