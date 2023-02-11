@@ -26,8 +26,16 @@ class DatabaseProvider {
             name TEXT NOT NULL,
             quantity REAL NOT NULL,
             image_url TEXT NOT NULL,
-            measure TEXT NULLABLE,
+            measure TEXT,
             weight REAL
+          )
+          ''');
+    await db.execute('''
+          CREATE TABLE favorites (
+            id TEXT PRIMARY KEY,
+            name TEXT NOT NULL,
+            image_url TEXT NOT NULL,
+            isFavorite INTEGER NOT NULL
           )
           ''');
   }

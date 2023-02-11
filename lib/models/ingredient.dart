@@ -26,7 +26,7 @@ class Ingredient {
     };
   }
 
-  static Ingredient fromMap(Map<dynamic, dynamic> map) {
+  factory Ingredient.fromMap(Map<dynamic, dynamic> map) {
     return Ingredient(
       id: map['id'],
       name: map['name'],
