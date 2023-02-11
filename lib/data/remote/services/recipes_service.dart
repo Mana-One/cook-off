@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
 
-import '../models/search_input.dart';
-import '../models/recipe.dart';
+import '../../../models/search_input.dart';
+import '../../../models/recipe.dart';
 
 class RecipesService {
   const RecipesService();

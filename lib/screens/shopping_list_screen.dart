@@ -1,142 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../controllers/shopping_list_controller.dart';
 import '../models/ingredient.dart';
 import '../providers/shopping_list.dart';
-import '../providers/shopping_list_notifier.dart';
-import '../repository/shopping_list_repository.dart';
 import '../widgets/shopping_item.dart';
-
-// class ShoppingListScreen extends StatefulWidget {
-//   const ShoppingListScreen({super.key});
-
-//   @override
-//   _ShoppingListScreenState createState() => _ShoppingListScreenState();
-// }
-
-// class _ShoppingListScreenState extends State<ShoppingListScreen> {
-//   final shoppingListRepository = ShoppingListRepository();
-//   List<Ingredient> ingredients = [];
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     shoppingListRepository.upsert(Ingredient(
-//         id: "food_a1vgrj1bs8rd1majvmd9ubz8ttkg",
-//         name: "chicken",
-//         quantity: 1.0,
-//         imageUrl:
-//             "https://www.edamam.com/food-img/694/6943ea510918c6025795e8dc6e6eaaeb.jpg",
-//         measure: "tablespoon",
-//         weight: 14.562499999753793));
-
-//     shoppingListRepository.upsert(Ingredient(
-//         id: "food_bmyxrshbfao9s1amjrvhoauob6mo",
-//         name: "chicken",
-//         quantity: 1.0,
-//         imageUrl:
-//             "https://www.edamam.com/food-img/d33/d338229d774a743f7858f6764e095878.jpg",
-//         measure: "",
-//         weight: 1200.0));
-
-//     shoppingListRepository.upsert(Ingredient(
-//         id: "food_bmyxrshbfao9s1amjrvhoauob6mo",
-//         name: "chicken",
-//         quantity: 1.0,
-//         imageUrl:
-//             "https://www.edamam.com/food-img/d33/d338229d774a743f7858f6764e095878.jpg",
-//         measure: "",
-//         weight: 800.0));
-
-//     _retrieveIngredients();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     if (ingredients.isNotEmpty) {
-//       return ListView.builder(
-//         itemBuilder: (context, index) => Dismissible(
-//           key: UniqueKey(),
-//           onDismissed: (DismissDirection direction) {
-//             setState(() {
-//               _removeIngredient(ingredients[index]);
-//               ingredients.removeAt(index);
-//             });
-//           },
-//           child: ShoppingItem(ingredient: ingredients[index]),
-//         ),
-//         itemCount: ingredients.length,
-//       );
-//     }
-//     if (ingredients.isEmpty) {
-//       return const Center(child: Text('Your shopping list is empty.'));
-//     }
-
-//     return const Center(child: CircularProgressIndicator());
-//   }
-
-//   void _retrieveIngredients() async {
-//     List<Ingredient> ingredientsFromDb = await shoppingListRepository.getAll();
-//     setState(() {
-//       ingredients = ingredientsFromDb;
-//     });
-//   }
-
-//   void addIngredient(Ingredient ingredient) async {
-//     await shoppingListRepository.upsert(ingredient);
-//   }
-
-//   Future<void> _removeIngredient(Ingredient ingredient) async {
-//     await shoppingListRepository.delete(ingredient.id);
-//   }
-// }
 
 class ShoppingListScreen extends ConsumerWidget {
   const ShoppingListScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ingredients = ref.watch(shoppingListDataProvider.future);
+    final ingredients = ref.watch(shoppingListProvider);
 
-    return FutureBuilder(
-      future: ingredients,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final ingredientList = snapshot.data;
-          if (ingredientList == null || ingredientList.isEmpty) {
-            return const Center(child: Text('Your shopping list is empty..'));
-          }
-
-          return ListView.builder(
-            itemBuilder: (context, index) => Dismissible(
-              key: UniqueKey(),
-              onDismissed: (direction) => _onDismissed(
-                direction,
-                ref,
-                ingredientList[index],
-              ),
-              child: ShoppingItem(ingredient: ingredientList[index]),
+    return ingredients.when(
+      data: (data) {
+        if (data.isEmpty) {
+          return const Center(child: Text('Your shopping list is empty..'));
+        }
+        return ListView.builder(
+          itemBuilder: (context, index) => Dismissible(
+            key: UniqueKey(),
+            background: Container(color: Colors.red),
+            onDismissed: (direction) => _onDismissed(
+              direction,
+              ref,
+              data[index],
             ),
-            itemCount: ingredientList.length,
-          );
-        }
-        if (snapshot.hasError) {
-          return Center(
-            child: Text(snapshot.error.toString()),
-          );
-        }
-
-        return const Center(child: CircularProgressIndicator());
+            child: ShoppingItem(ingredient: data[index]),
+          ),
+          itemCount: data.length,
+        );
       },
+      error: (error, _) => Center(child: Text(error.toString())),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      skipLoadingOnRefresh: false,
     );
   }
+  //   return FutureBuilder(
+  //     future: ingredients.when(data: data, error: error, loading: loading),
+  //     builder: (context, snapshot) {
+  //       if (snapshot.hasData) {
+  //         final ingredientList = snapshot.data;
+  //         if (ingredientList == null || ingredientList.isEmpty) {
+  //           return const Center(child: Text('Your shopping list is empty..'));
+  //         }
+
+  //         return ListView.builder(
+  //           itemBuilder: (context, index) => Dismissible(
+  //             key: UniqueKey(),
+  //             onDismissed: (direction) => _onDismissed(
+  //               direction,
+  //               ref,
+  //               ingredientList[index],
+  //             ),
+  //             child: ShoppingItem(ingredient: ingredientList[index]),
+  //           ),
+  //           itemCount: ingredientList.length,
+  //         );
+  //       }
+  //       if (snapshot.hasError) {
+  //         return Center(
+  //           child: Text(snapshot.error.toString()),
+  //         );
+  //       }
+
+  //       return const Center(child: CircularProgressIndicator());
+  //     },
+  //   );
+  // }
 
   void _onDismissed(
     DismissDirection dismissDirection,
     WidgetRef ref,
     Ingredient ingredient,
   ) {
-    ref.read(shoppingListProvider.notifier).removeIngredient(ingredient);
-    ref.invalidate(shoppingListDataProvider);
+    ref.read(shoppingListController).delete(ingredient);
   }
 }

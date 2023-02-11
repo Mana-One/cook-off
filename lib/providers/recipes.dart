@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/search_input.dart';
-import '../services/recipes_service.dart';
+import '../data/remote/services/recipes_service.dart';
 import '../models/recipe.dart';
 
 final recipesServiceProvider = Provider((ref) => const RecipesService());

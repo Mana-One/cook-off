@@ -1,8 +1,9 @@
+import 'package:cook_off/controllers/favorites_list_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/recipe.dart';
 import '../providers/favorites.dart';
-import '../providers/favorites_notifier.dart';
 import '../widgets/recipe_item.dart';
 
 class FavoritesScreen extends ConsumerWidget {
@@ -10,39 +11,38 @@ class FavoritesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final favoriteRecipes = ref.watch(favoritesDataProvider.future);
+    final favorites = ref.watch(favoritesProvider);
 
-    return FutureBuilder(
-      future: favoriteRecipes,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          var favoriteRecipeList = snapshot.data;
-          if (favoriteRecipeList == null || favoriteRecipeList.isEmpty) {
-            return const Center(child: Text('You have no favorite recipes.'));
-          }
-
-          return ListView.builder(
-            itemBuilder: (context, index) => Dismissible(
-              key: UniqueKey(),
-              onDismissed: (DismissDirection direction) {
-                ref
-                    .read(favoritesProvider.notifier)
-                    .removeFavorite(favoriteRecipeList[index]);
-                ref.invalidate(favoritesDataProvider);
-              },
-              child: RecipeItem(recipe: favoriteRecipeList[index]),
+    return favorites.when(
+      data: (data) {
+        if (data.isEmpty) {
+          return const Center(child: Text('You have no favorite recipes.'));
+        }
+        return ListView.builder(
+          itemBuilder: (context, index) => Dismissible(
+            key: UniqueKey(),
+            background: Container(color: Colors.red),
+            onDismissed: (direction) => _onDismissed(
+              direction,
+              ref,
+              data[index],
             ),
-            itemCount: favoriteRecipeList.length,
-          );
-        }
-        if (snapshot.hasError) {
-          return Center(
-            child: Text(snapshot.error.toString()),
-          );
-        }
-
-        return const Center(child: CircularProgressIndicator());
+            child: RecipeItem(recipe: data[index]),
+          ),
+          itemCount: data.length,
+        );
       },
+      error: (error, _) => Center(child: Text(error.toString())),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      skipLoadingOnRefresh: false,
     );
+  }
+
+  void _onDismissed(
+    DismissDirection dismissDirection,
+    WidgetRef ref,
+    Recipe recipe,
+  ) {
+    ref.read(favoritesListController).delete(recipe);
   }
 }

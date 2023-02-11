@@ -1,14 +1,22 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqlite_api.dart';
 
-import '../database/database.dart';
-import '../models/ingredient.dart';
+import '../db_helper.dart';
+import '../../../models/ingredient.dart';
 
-class ShoppingListRepository {
+final shoppingRepositoryProvider = Provider((ref) {
+  final dbHelper = ref.read(databaseProvider);
+  return ShoppingRepository(dbHelper: dbHelper);
+});
+
+class ShoppingRepository {
   final String _table = 'shopping_list';
-  final DatabaseProvider _provider = DatabaseProvider.instance;
+  final DbHelper dbHelper;
+
+  const ShoppingRepository({required this.dbHelper});
 
   Future<void> upsert(Ingredient ingredient) async {
-    Database db = await _provider.database;
+    Database db = await dbHelper.database;
 
     await db.transaction((txn) async {
       int count = await txn.rawUpdate(
@@ -23,13 +31,13 @@ class ShoppingListRepository {
   }
 
   Future<List<Ingredient>> getAll() async {
-    Database db = await _provider.database;
+    Database db = await dbHelper.database;
     List<Map> maps = await db.query(_table);
     return maps.map((e) => Ingredient.fromMap(e)).toList();
   }
 
   Future<int> delete(String id) async {
-    Database db = await _provider.database;
+    Database db = await dbHelper.database;
     return db.delete(
       _table,
       where: 'id = ?',
