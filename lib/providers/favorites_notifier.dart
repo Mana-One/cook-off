@@ -8,26 +8,20 @@ class FavoritesNotifier extends StateNotifier<List<Recipe>> {
 
   List<Recipe> get favorites => state;
 
-  void addFavorite(Recipe recipe) {
+  Future<void> addFavorite(Recipe recipe) async {
     recipe.isFavorite = true;
-    favoritesListRepository.upsert(recipe);
+    await favoritesListRepository.upsert(recipe);
     state = [
       ...state,
       recipe,
     ];
   }
 
-  void removeFavorite(Recipe recipe) {
+  Future<void> removeFavorite(Recipe recipe) async {
     recipe.isFavorite = false;
-    favoritesListRepository.upsert(recipe);
+    await favoritesListRepository.upsert(recipe);
     state = state.where((element) => element.id != recipe.id).toList();
   }
-
-  bool isFavorite(Recipe recipe) {
-    return state.any((element) => element.id == recipe.id);
-  }
-
-  bool isEmpty() => state.isEmpty;
 }
 
 final favoritesProvider =
