@@ -1,7 +1,7 @@
-import 'package:cook_off/screens/filters_screen.dart';
-import 'package:cook_off/screens/not_found_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/filters_screen.dart';
+import '../screens/not_found_screen.dart';
 import '../screens/home.dart';
 
 class AppRouter {

@@ -1,10 +1,12 @@
-import 'package:cook_off/database/database.dart';
-import 'package:cook_off/models/recipe.dart';
 import 'package:sqflite/sqlite_api.dart';
+
+import '../database/database.dart';
+import '../models/recipe.dart';
 
 class FavoritesListRepository {
   final String _table = 'favorites';
   final DatabaseProvider _provider = DatabaseProvider.instance;
+
   Future<List<Recipe>> getAll() async {
     Database db = await _provider.database;
     List<Map> maps = await db.query(_table);

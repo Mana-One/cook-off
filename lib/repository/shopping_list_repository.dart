@@ -1,10 +1,12 @@
-import 'package:cook_off/database/database.dart';
-import 'package:cook_off/models/ingredient.dart';
 import 'package:sqflite/sqlite_api.dart';
+
+import '../database/database.dart';
+import '../models/ingredient.dart';
 
 class ShoppingListRepository {
   final String _table = 'shopping_list';
   final DatabaseProvider _provider = DatabaseProvider.instance;
+
   Future<void> upsert(Ingredient ingredient) async {
     Database db = await _provider.database;
 

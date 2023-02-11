@@ -1,6 +1,6 @@
-import 'package:cook_off/repository/favorites_list_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../repository/favorites_list_repository.dart';
 import '../models/recipe.dart';
 
 final favoritesDBProvider = Provider((ref) => FavoritesListRepository());

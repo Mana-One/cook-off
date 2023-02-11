@@ -1,6 +1,7 @@
-import 'package:cook_off/models/recipe.dart';
-import 'package:cook_off/repository/favorites_list_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../models/recipe.dart';
+import '../repository/favorites_list_repository.dart';
 
 class FavoritesNotifier extends StateNotifier<List<Recipe>> {
   FavoritesNotifier() : super([]);

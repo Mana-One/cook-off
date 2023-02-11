@@ -1,7 +1,8 @@
-import 'package:cook_off/providers/recipes.dart';
-import 'package:cook_off/widgets/recipe_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../providers/recipes.dart';
+import '../widgets/recipe_item.dart';
 
 class RecipeList extends ConsumerWidget {
   const RecipeList({super.key});

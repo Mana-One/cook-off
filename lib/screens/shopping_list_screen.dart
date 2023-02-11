@@ -1,10 +1,11 @@
-import 'package:cook_off/models/ingredient.dart';
-import 'package:cook_off/providers/shopping_list.dart';
-import 'package:cook_off/providers/shopping_list_notifier.dart';
-import 'package:cook_off/repository/shopping_list_repository.dart';
-import 'package:cook_off/widgets/shopping_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../models/ingredient.dart';
+import '../providers/shopping_list.dart';
+import '../providers/shopping_list_notifier.dart';
+import '../repository/shopping_list_repository.dart';
+import '../widgets/shopping_item.dart';
 
 // class ShoppingListScreen extends StatefulWidget {
 //   const ShoppingListScreen({super.key});
@@ -98,35 +99,44 @@ class ShoppingListScreen extends ConsumerWidget {
     final ingredients = ref.watch(shoppingListDataProvider.future);
 
     return FutureBuilder(
-        future: ingredients,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final ingredientList = snapshot.data;
-            if (ingredientList == null || ingredientList.isEmpty) {
-              return const Center(child: Text('Your shopping list is empty..'));
-            }
-            ref.watch(shoppingListDataProvider.future);
-            return ListView.builder(
-              itemBuilder: (context, index) => Dismissible(
-                key: UniqueKey(),
-                onDismissed: (DismissDirection direction) {
-                  ref
-                      .read(shoppingListProvider.notifier)
-                      .removeIngredient(ingredientList[index]);
-                  ref.invalidate(shoppingListDataProvider);
-                },
-                child: ShoppingItem(ingredient: ingredientList[index]),
-              ),
-              itemCount: ingredientList.length,
-            );
-          }
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(snapshot.error.toString()),
-            );
+      future: ingredients,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final ingredientList = snapshot.data;
+          if (ingredientList == null || ingredientList.isEmpty) {
+            return const Center(child: Text('Your shopping list is empty..'));
           }
 
-          return const Center(child: CircularProgressIndicator());
-        });
+          return ListView.builder(
+            itemBuilder: (context, index) => Dismissible(
+              key: UniqueKey(),
+              onDismissed: (direction) => _onDismissed(
+                direction,
+                ref,
+                ingredientList[index],
+              ),
+              child: ShoppingItem(ingredient: ingredientList[index]),
+            ),
+            itemCount: ingredientList.length,
+          );
+        }
+        if (snapshot.hasError) {
+          return Center(
+            child: Text(snapshot.error.toString()),
+          );
+        }
+
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+
+  void _onDismissed(
+    DismissDirection dismissDirection,
+    WidgetRef ref,
+    Ingredient ingredient,
+  ) {
+    ref.read(shoppingListProvider.notifier).removeIngredient(ingredient);
+    ref.invalidate(shoppingListDataProvider);
   }
 }

@@ -1,6 +1,7 @@
-import 'package:cook_off/models/ingredient.dart';
-import 'package:cook_off/repository/shopping_list_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../models/ingredient.dart';
+import '../repository/shopping_list_repository.dart';
 
 class ShoppingListNotifier extends StateNotifier<List<Ingredient>> {
   ShoppingListNotifier() : super([]);
