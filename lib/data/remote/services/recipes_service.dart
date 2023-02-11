@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 
 import '../../../models/search_input.dart';
 import '../../../models/recipe.dart';
+
+final recipesServiceProvider = Provider((ref) => const RecipesService());
 
 class RecipesService {
   const RecipesService();
