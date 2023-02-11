@@ -9,32 +9,22 @@ class RecipeList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final recipes = ref.watch(recipesProvider.future);
+    final recipes = ref.watch(recipesProvider);
 
-    return FutureBuilder(
-      future: recipes,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final recipeList = snapshot.data;
-          if (recipeList == null || recipeList.isEmpty) {
-            return const Center(child: Text('No match!'));
-          }
-          return Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) =>
-                  RecipeItem(recipe: recipeList[index]),
-              itemCount: recipeList.length,
-            ),
-          );
+    return recipes.when(
+      data: (data) {
+        if (data.isEmpty) {
+          return const Center(child: Text('No match!'));
         }
-        if (snapshot.hasError) {
-          return Center(
-            child: Text(snapshot.error.toString()),
-          );
-        }
-
-        return const Center(child: CircularProgressIndicator());
+        return Expanded(
+          child: ListView.builder(
+            itemBuilder: (context, index) => RecipeItem(recipe: data[index]),
+            itemCount: data.length,
+          ),
+        );
       },
+      error: (error, stackTrace) => Center(child: Text(error.toString())),
+      loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
 }

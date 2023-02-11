@@ -37,38 +37,6 @@ class ShoppingListScreen extends ConsumerWidget {
       skipLoadingOnRefresh: false,
     );
   }
-  //   return FutureBuilder(
-  //     future: ingredients.when(data: data, error: error, loading: loading),
-  //     builder: (context, snapshot) {
-  //       if (snapshot.hasData) {
-  //         final ingredientList = snapshot.data;
-  //         if (ingredientList == null || ingredientList.isEmpty) {
-  //           return const Center(child: Text('Your shopping list is empty..'));
-  //         }
-
-  //         return ListView.builder(
-  //           itemBuilder: (context, index) => Dismissible(
-  //             key: UniqueKey(),
-  //             onDismissed: (direction) => _onDismissed(
-  //               direction,
-  //               ref,
-  //               ingredientList[index],
-  //             ),
-  //             child: ShoppingItem(ingredient: ingredientList[index]),
-  //           ),
-  //           itemCount: ingredientList.length,
-  //         );
-  //       }
-  //       if (snapshot.hasError) {
-  //         return Center(
-  //           child: Text(snapshot.error.toString()),
-  //         );
-  //       }
-
-  //       return const Center(child: CircularProgressIndicator());
-  //     },
-  //   );
-  // }
 
   void _onDismissed(
     DismissDirection dismissDirection,
