@@ -28,19 +28,24 @@ class FavoriteButton extends ConsumerWidget {
       },
       error: (error, stackTrace) => const Icon(Icons.error),
       loading: () => const CircularProgressIndicator(),
-      skipLoadingOnRefresh: false,
     );
   }
 
   void _markAsFavorite(WidgetRef ref) {
-    final currentRecipe = ref.read(currentRecipeProvider.notifier).current!;
+    final currentRecipe = ref.read(currentRecipeProvider.notifier).current;
+    if (currentRecipe == null) {
+      return;
+    }
     ref.read(favoritesRepositoryProvider).insert(currentRecipe);
     ref.invalidate(favoriteCheckerProvider);
     ref.invalidate(favoritesProvider);
   }
 
   void _unmarkAsFavorite(WidgetRef ref) {
-    final currentRecipe = ref.read(currentRecipeProvider.notifier).current!;
+    final currentRecipe = ref.read(currentRecipeProvider.notifier).current;
+    if (currentRecipe == null) {
+      return;
+    }
     ref.read(favoritesRepositoryProvider).delete(currentRecipe.id);
     ref.invalidate(favoriteCheckerProvider);
     ref.invalidate(favoritesProvider);

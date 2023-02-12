@@ -4,14 +4,14 @@ class Recipe {
   final String id;
   final String name;
   final String imageUrl;
-  final List<Ingredient>? ingredients;
+  final List<Ingredient> ingredients;
   bool isFavorite;
 
   Recipe({
     required this.id,
     required this.name,
     required this.imageUrl,
-    this.ingredients,
+    this.ingredients = const [],
     this.isFavorite = false,
   });
 
@@ -30,6 +30,7 @@ class Recipe {
       name: map['name'],
       imageUrl: map['image_url'],
       isFavorite: (map['isFavorite'] == 1) ? true : false,
+      ingredients: [],
     );
   }
 
