@@ -13,6 +13,7 @@ class SearchBar extends ConsumerWidget {
     final isClearable = ref.watch(
       searchQueryProvider.select((value) => value.isNotEmpty),
     );
+    _controller.text = ref.read(searchQueryProvider.notifier).query;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,

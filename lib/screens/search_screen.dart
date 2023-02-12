@@ -1,6 +1,6 @@
-import 'package:cook_off/widgets/recipe_list.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/recipe_list.dart';
 import '../widgets/search_filter_list.dart';
 import '../widgets/search_bar.dart';
 

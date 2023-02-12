@@ -1,83 +1,48 @@
-import 'package:cook_off/database/shopping_list_database.dart';
-import 'package:cook_off/models/ingredient.dart';
-import 'package:cook_off/widgets/shopping_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ShoppingListScreen extends StatefulWidget {
+import '../controllers/shopping_list_controller.dart';
+import '../models/ingredient.dart';
+import '../providers/shopping_list.dart';
+import '../widgets/shopping_item.dart';
+
+class ShoppingListScreen extends ConsumerWidget {
   const ShoppingListScreen({super.key});
 
   @override
-  _ShoppingListScreenState createState() => _ShoppingListScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ingredients = ref.watch(shoppingListProvider);
 
-class _ShoppingListScreenState extends State<ShoppingListScreen> {
-  final dbHelper = ShoppingListDB.instance;
-  List<Ingredient> ingredients = [];
-
-  @override
-  void initState() {
-    super.initState();
-    dbHelper.upsert(Ingredient(
-        id: 1,
-        name: "chicken",
-        quantity: 2.0,
-        imageUrl:
-            "https://www.edamam.com/food-img/694/6943ea510918c6025795e8dc6e6eaaeb.jpg",
-        measure: "gram",
-        weight: 1000.0));
-
-    dbHelper.upsert(Ingredient(
-        id: 1,
-        name: "chicken",
-        quantity: 2.0,
-        imageUrl:
-            "https://www.edamam.com/food-img/694/6943ea510918c6025795e8dc6e6eaaeb.jpg",
-        measure: "gram",
-        weight: 10.0));
-
-    dbHelper.upsert(Ingredient(
-        id: 1,
-        name: "chicken",
-        quantity: 3.0,
-        imageUrl:
-            "https://www.edamam.com/food-img/694/6943ea510918c6025795e8dc6e6eaaeb.jpg",
-        measure: "gram",
-        weight: 10.0));
-
-    _retrieveIngredients();
+    return ingredients.when(
+      data: (data) {
+        if (data.isEmpty) {
+          return const Center(child: Text('Your shopping list is empty.'));
+        }
+        return ListView.builder(
+          itemBuilder: (context, index) => Dismissible(
+            key: UniqueKey(),
+            background: Container(color: Colors.red),
+            onDismissed: (direction) => _onDismissed(
+              direction,
+              ref,
+              data[index],
+            ),
+            child: ShoppingItem(ingredient: data[index]),
+          ),
+          itemCount: data.length,
+        );
+      },
+      error: (error, _) => Center(child: Text(error.toString())),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      skipLoadingOnRefresh: false,
+    );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    if (ingredients.isNotEmpty) {
-      return ListView.builder(
-        itemBuilder: (context, index) =>
-            ShoppingItem(ingredient: ingredients[index]),
-        itemCount: ingredients.length,
-      );
-    }
-    if (ingredients.isEmpty) {
-      return const Center(child: Text('Your shopping list is empty.'));
-    }
-
-    return const Center(child: CircularProgressIndicator());
-  }
-
-  void _retrieveIngredients() async {
-    List<Ingredient> ingredientsFromDb = await dbHelper.getAll();
-    setState(() {
-      ingredients = ingredientsFromDb;
-    });
-  }
-
-  void addIngredient(Ingredient ingredient) {
-    dbHelper.insert(ingredient);
+  void _onDismissed(
+    DismissDirection dismissDirection,
+    WidgetRef ref,
+    Ingredient ingredient,
+  ) {
+    ref.read(shoppingListController).delete(ingredient);
   }
 }
-
-/*
- floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
-*/

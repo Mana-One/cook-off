@@ -1,6 +1,6 @@
-import 'package:cook_off/utils/ref_debounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../utils/ref_debounce.dart';
 import '../providers/search_filters.dart';
 import '../providers/search_query.dart';
 import '../models/search_input.dart';

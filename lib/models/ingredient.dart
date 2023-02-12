@@ -1,5 +1,5 @@
 class Ingredient {
-  final int? id;
+  final String id;
   final String name;
   final double quantity;
   final String? measure;
@@ -7,7 +7,7 @@ class Ingredient {
   final double? weight;
 
   Ingredient({
-    this.id,
+    required this.id,
     required this.name,
     required this.quantity,
     this.measure,
@@ -26,7 +26,7 @@ class Ingredient {
     };
   }
 
-  static Ingredient fromMap(Map<String, dynamic> map) {
+  factory Ingredient.fromMap(Map<dynamic, dynamic> map) {
     return Ingredient(
       id: map['id'],
       name: map['name'],
@@ -37,10 +37,26 @@ class Ingredient {
     );
   }
 
-  @override
-  String toString() {
-    return 'Ingredient{name: $name, quantity: $quantity, imageUrl: $imageUrl, measure: $measure,weight: $weight}';
+  factory Ingredient.fromJson(Map<String, dynamic> json) {
+    final String id = json['foodId'] as String? ?? '';
+    final String name = json['food'] as String? ?? '';
+    final double quantity = json['quantity'] as double? ?? 0.0;
+    final String? measure = json['measure'] as String?;
+    final String imageUrl = json['image'] as String? ?? '';
+    final double? weight = json['weight'] as double?;
+
+    return Ingredient(
+      id: id,
+      name: name,
+      quantity: quantity,
+      measure: measure,
+      imageUrl: imageUrl,
+      weight: weight,
+    );
   }
 
-  onQuantityChanged(double d) {}
+  @override
+  String toString() {
+    return 'Ingredient{id: $id, name: $name, quantity: $quantity, imageUrl: $imageUrl, measure: $measure,weight: $weight}';
+  }
 }
