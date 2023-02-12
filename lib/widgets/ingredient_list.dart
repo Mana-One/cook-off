@@ -1,3 +1,4 @@
+import 'package:cook_off/widgets/ingredient_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -35,8 +36,9 @@ class IngredientList extends ConsumerWidget {
             ),
             Expanded(
               child: ListView.separated(
-                itemBuilder: (context, index) =>
-                    _buildIngredientTile(context, ref, ingredients[index]),
+                itemBuilder: (context, index) => IngredientItem(
+                  ingredient: ingredients[index],
+                ),
                 separatorBuilder: (context, index) => const SizedBox(height: 5),
                 itemCount: ingredients.length,
               ),
@@ -47,36 +49,6 @@ class IngredientList extends ConsumerWidget {
       error: (error, stackTrace) => Center(child: Text(error.toString())),
       loading: () => const Center(child: CircularProgressIndicator()),
     );
-  }
-
-  Widget _buildIngredientTile(
-      BuildContext context, WidgetRef ref, Ingredient ingredient) {
-    final title = ingredient.name;
-    String subtitle = '';
-    if (ingredient.quantity > 0 && ingredient.measure != null) {
-      subtitle = '${ingredient.quantity} ${ingredient.measure}';
-    }
-    return ListTile(
-      title: Text(title),
-      subtitle: Text(subtitle),
-      trailing: IconButton(
-        onPressed: () {
-          _addIngredient(ref, ingredient);
-          showDialog(
-            context: context,
-            builder: (context) => const IngredientAddedDialog(),
-          );
-        },
-        icon: const Icon(Icons.add),
-      ),
-    );
-  }
-
-  Future<void> _addIngredient(
-    WidgetRef ref,
-    Ingredient ingredient,
-  ) async {
-    ref.read(shoppingListController).addOrUpdate(ingredient);
   }
 
   Future<void> _addAllIngredients(
