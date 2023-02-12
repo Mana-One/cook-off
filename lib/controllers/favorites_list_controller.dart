@@ -19,11 +19,22 @@ class FavoritesListController {
   });
 
   Future<void> insert(Recipe recipe) async {
+    recipe.isFavorite = true;
     await repository.insert(recipe);
     ref.invalidate(favoritesProvider);
   }
 
+  Future<Recipe> _getOne(String recipeId) async {
+    return await repository.getOne(recipeId);
+  }
+
+  Future<bool> isFavorite(String recipeId) async {
+    Recipe recipe = await _getOne(recipeId);
+    return recipe.id == '' ? false : recipe.isFavorite;
+  }
+
   Future<void> delete(Recipe recipe) async {
+    recipe.isFavorite = false;
     await repository.delete(recipe.id);
     ref.invalidate(favoritesProvider);
   }

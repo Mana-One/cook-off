@@ -67,4 +67,23 @@ class FavoritesRepository {
       whereArgs: [id],
     );
   }
+
+  Future<Recipe> getOne(String id) async {
+    final Database db = await dbHelper.database;
+    List<Map> maps = await db.query(
+      _table,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    if (maps.isEmpty) {
+      return Recipe(
+        id: '',
+        name: '',
+        ingredients: [],
+        isFavorite: false,
+        imageUrl: '',
+      );
+    }
+    return Recipe.fromMap(maps.first);
+  }
 }

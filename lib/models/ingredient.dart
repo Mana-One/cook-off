@@ -37,6 +37,24 @@ class Ingredient {
     );
   }
 
+  factory Ingredient.fromJson(Map<String, dynamic> json) {
+    final String id = json['foodId'] as String? ?? '';
+    final String name = json['food'] as String? ?? '';
+    final double quantity = json['quantity'] as double? ?? 0.0;
+    final String? measure = json['measure'] as String?;
+    final String imageUrl = json['image'] as String? ?? '';
+    final double? weight = json['weight'] as double?;
+
+    return Ingredient(
+      id: id,
+      name: name,
+      quantity: quantity,
+      measure: measure,
+      imageUrl: imageUrl,
+      weight: weight,
+    );
+  }
+
   @override
   String toString() {
     return 'Ingredient{id: $id, name: $name, quantity: $quantity, imageUrl: $imageUrl, measure: $measure,weight: $weight}';

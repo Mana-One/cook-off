@@ -16,7 +16,7 @@ class ShoppingListScreen extends ConsumerWidget {
     return ingredients.when(
       data: (data) {
         if (data.isEmpty) {
-          return const Center(child: Text('Your shopping list is empty..'));
+          return const Center(child: Text('Your shopping list is empty.'));
         }
         return ListView.builder(
           itemBuilder: (context, index) => Dismissible(

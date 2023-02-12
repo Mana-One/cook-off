@@ -1,13 +1,17 @@
+import 'package:cook_off/models/ingredient.dart';
+
 class Recipe {
   final String id;
   final String name;
   final String imageUrl;
+  final List<Ingredient>? ingredients;
   bool isFavorite;
 
   Recipe({
     required this.id,
     required this.name,
     required this.imageUrl,
+    this.ingredients,
     this.isFavorite = false,
   });
 
@@ -36,10 +40,17 @@ class Recipe {
     final String name = json['recipe']?['label'] as String? ?? '';
     final String imageUrl = json['recipe']?['image'] as String? ?? '';
 
+    final List<dynamic> ingredientsJson =
+        json['recipe']?['ingredients'] as List<dynamic>? ?? [];
+    final List<Ingredient> ingredients = ingredientsJson
+        .map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
+        .toList();
+
     return Recipe(
       id: id,
       name: name,
       imageUrl: imageUrl,
+      ingredients: ingredients,
     );
   }
 }
