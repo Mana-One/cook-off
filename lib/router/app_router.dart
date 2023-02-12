@@ -17,6 +17,15 @@ class AppRouter {
   static MaterialPageRoute getRouter(RouteSettings settings) {
     Widget screen = const NotFoundScreen();
 
+    switch (settings.name) {
+      case '/home':
+        final index = settings.arguments;
+        if (index is int) {
+          screen = HomeScreen(title: 'Cook off', startingIndex: index);
+        }
+        break;
+    }
+
     return MaterialPageRoute(builder: (context) => screen);
   }
 }

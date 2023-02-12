@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/current_recipe_details.dart';
 import '../controllers/shopping_list_controller.dart';
 import '../models/ingredient.dart';
+import 'ingredient_added_dialog.dart';
 
 class IngredientList extends ConsumerWidget {
   const IngredientList({super.key});
@@ -25,7 +26,8 @@ class IngredientList extends ConsumerWidget {
                 children: [
                   const Text('Ingredients: '),
                   IconButton(
-                    onPressed: () => _addAllIngredients(ref, ingredients),
+                    onPressed: () =>
+                        _addAllIngredients(context, ref, ingredients),
                     icon: const Icon(Icons.add_shopping_cart),
                   ),
                 ],
@@ -34,7 +36,7 @@ class IngredientList extends ConsumerWidget {
             Expanded(
               child: ListView.separated(
                 itemBuilder: (context, index) =>
-                    _buildIngredientTile(ref, ingredients[index]),
+                    _buildIngredientTile(context, ref, ingredients[index]),
                 separatorBuilder: (context, index) => const SizedBox(height: 5),
                 itemCount: ingredients.length,
               ),
@@ -47,7 +49,8 @@ class IngredientList extends ConsumerWidget {
     );
   }
 
-  Widget _buildIngredientTile(WidgetRef ref, Ingredient ingredient) {
+  Widget _buildIngredientTile(
+      BuildContext context, WidgetRef ref, Ingredient ingredient) {
     final title = ingredient.name;
     String subtitle = '';
     if (ingredient.quantity > 0 && ingredient.measure != null) {
@@ -57,7 +60,13 @@ class IngredientList extends ConsumerWidget {
       title: Text(title),
       subtitle: Text(subtitle),
       trailing: IconButton(
-        onPressed: () => _addIngredient(ref, ingredient),
+        onPressed: () {
+          _addIngredient(ref, ingredient);
+          showDialog(
+            context: context,
+            builder: (context) => const IngredientAddedDialog(),
+          );
+        },
         icon: const Icon(Icons.add),
       ),
     );
@@ -71,11 +80,16 @@ class IngredientList extends ConsumerWidget {
   }
 
   Future<void> _addAllIngredients(
+    BuildContext context,
     WidgetRef ref,
     List<Ingredient> ingredients,
   ) async {
     for (var ingredient in ingredients) {
-      ref.read(shoppingListController).addOrUpdate(ingredient);
+      await ref.read(shoppingListController).addOrUpdate(ingredient);
     }
+    showDialog(
+      context: context,
+      builder: (context) => const IngredientAddedDialog(),
+    );
   }
 }
