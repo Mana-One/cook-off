@@ -1,6 +1,3 @@
-import 'package:flutter/foundation.dart';
-
-@immutable
 class SearchInput {
   final String query;
   final List<String> filters;

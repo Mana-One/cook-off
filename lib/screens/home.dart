@@ -5,11 +5,22 @@ import '../screens/search_screen.dart';
 import '../screens/shopping_list_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const String routeName = '/home';
+  static navigateTo(BuildContext context, int index) {
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      routeName,
+      (route) => false,
+      arguments: index,
+    );
+  }
+
   final String title;
+  final int startingIndex;
 
   const HomeScreen({
     super.key,
     required this.title,
+    this.startingIndex = 0,
   });
 
   @override
@@ -17,7 +28,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentScreenIndex = 0;
+  late int _currentScreenIndex;
+
+  @override
+  void initState() {
+    _currentScreenIndex = widget.startingIndex;
+    super.initState();
+  }
+
   final List<Widget> _screens = [
     const SearchScreen(),
     const ShoppingListScreen(),

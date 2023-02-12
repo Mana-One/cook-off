@@ -4,7 +4,6 @@ class Ingredient {
   final double quantity;
   final String? measure;
   final String imageUrl;
-  final double? weight;
 
   Ingredient({
     required this.id,
@@ -12,7 +11,6 @@ class Ingredient {
     required this.quantity,
     this.measure,
     required this.imageUrl,
-    this.weight,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,7 +20,6 @@ class Ingredient {
       'quantity': quantity,
       'image_url': imageUrl,
       'measure': measure,
-      'weight': weight
     };
   }
 
@@ -33,7 +30,6 @@ class Ingredient {
       quantity: map['quantity'],
       imageUrl: map['image_url'],
       measure: map['measure'],
-      weight: map['weight'],
     );
   }
 
@@ -43,7 +39,6 @@ class Ingredient {
     final double quantity = json['quantity'] as double? ?? 0.0;
     final String? measure = json['measure'] as String?;
     final String imageUrl = json['image'] as String? ?? '';
-    final double? weight = json['weight'] as double?;
 
     return Ingredient(
       id: id,
@@ -51,12 +46,11 @@ class Ingredient {
       quantity: quantity,
       measure: measure,
       imageUrl: imageUrl,
-      weight: weight,
     );
   }
 
   @override
   String toString() {
-    return 'Ingredient{id: $id, name: $name, quantity: $quantity, imageUrl: $imageUrl, measure: $measure,weight: $weight}';
+    return 'Ingredient{id: $id, name: $name, quantity: $quantity, imageUrl: $imageUrl, measure: $measure';
   }
 }

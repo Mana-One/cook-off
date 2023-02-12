@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../providers/current_recipe_details.dart';
 import '../providers/current_recipe.dart';
 import '../models/recipe.dart';
 import '../screens/recipe_details_screen.dart';
@@ -72,6 +73,7 @@ class RecipeItem extends ConsumerWidget {
     Recipe recipe,
   ) {
     ref.read(currentRecipeProvider.notifier).replaceCurrentRecipe(recipe);
-    RecipeDetailsScreen.navigateTo(context, recipe: recipe);
+    ref.invalidate(currentRecipeDetailsProvider);
+    Navigator.of(context).pushNamed(RecipeDetailsScreen.routeName);
   }
 }
