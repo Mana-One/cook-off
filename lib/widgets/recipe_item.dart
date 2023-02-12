@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/recipe.dart';
+import '../screens/recipe_details_screen.dart';
 
 class RecipeItem extends ConsumerWidget {
   final Recipe recipe;
@@ -13,49 +14,61 @@ class RecipeItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25),
-      ),
-      margin: const EdgeInsets.only(top: 20, left: 40, right: 40),
-      child: Row(
-        children: [
-          Expanded(
-            child: IntrinsicWidth(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  ClipRRect(
-                    clipBehavior: Clip.hardEdge,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      topRight: Radius.circular(25),
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl: recipe.imageUrl,
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
+    return GestureDetector(
+      onTap: () => _goToDetails(context, recipe),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
+        margin: const EdgeInsets.only(top: 20, left: 40, right: 40),
+        child: Row(
+          children: [
+            Expanded(
+              child: IntrinsicWidth(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ClipRRect(
+                      clipBehavior: Clip.hardEdge,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
                       ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                      fit: BoxFit.fitWidth,
+                      child: CachedNetworkImage(
+                        imageUrl: recipe.imageUrl,
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                        fit: BoxFit.fitWidth,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 20),
-                    child: Text(
-                      recipe.name,
-                      style: Theme.of(context).textTheme.labelLarge,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 20,
+                      ),
+                      child: Text(
+                        recipe.name,
+                        style: Theme.of(context).textTheme.labelLarge,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+
+  void _goToDetails(
+    BuildContext context,
+    Recipe recipe,
+  ) {
+    RecipeDetailsScreen.navigateTo(context, recipe: recipe);
   }
 }

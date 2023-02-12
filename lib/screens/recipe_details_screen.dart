@@ -7,6 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RecipeDetailsScreen extends ConsumerWidget {
+  static const String routeName = '/details';
+  static void navigateTo(BuildContext context, {required Recipe recipe}) {
+    Navigator.of(context).pushNamed(routeName, arguments: recipe);
+  }
+
   final Recipe recipe;
 
   const RecipeDetailsScreen({
@@ -17,6 +22,7 @@ class RecipeDetailsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(favoritesListController);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(recipe.name),

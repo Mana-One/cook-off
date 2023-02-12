@@ -1,4 +1,3 @@
-import 'package:cook_off/screens/recipe_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,18 +18,7 @@ class RecipeList extends ConsumerWidget {
         }
         return Expanded(
           child: ListView.builder(
-            itemBuilder: (context, index) => GestureDetector(
-              onTap: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RecipeDetailsScreen(
-                        recipe: data[index],
-                      ),
-                    ))
-              },
-              child: RecipeItem(recipe: data[index]),
-            ),
+            itemBuilder: (context, index) => RecipeItem(recipe: data[index]),
             itemCount: data.length,
           ),
         );
