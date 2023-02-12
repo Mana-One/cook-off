@@ -3,8 +3,6 @@ import 'package:cook_off/widgets/ingredient_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../controllers/shopping_list_controller.dart';
-import '../models/ingredient.dart';
 import '../models/recipe.dart';
 import '../widgets/favorite_button.dart';
 
@@ -40,20 +38,34 @@ class RecipeDetailsScreen extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CachedNetworkImage(
-              imageUrl: recipe.imageUrl,
-              placeholder: (context, url) => const Center(
-                child: CircularProgressIndicator(),
-              ),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+            SizedBox(
               height: 300,
+              child: Stack(
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: recipe.imageUrl,
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                    height: 300,
+                  ),
+                  const Positioned(
+                    bottom: 5,
+                    right: 5,
+                    child: FavoriteButton(),
+                  ),
+                ],
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                FavoriteButton(),
-              ],
-            ),
+
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: const [
+
+            //   ],
+            // ),
             Expanded(
               child: IngredientList(ingredients: recipe.ingredients),
             )
