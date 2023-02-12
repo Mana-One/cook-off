@@ -19,13 +19,11 @@ class FavoritesListController {
   });
 
   Future<void> insert(Recipe recipe) async {
-    recipe.isFavorite = true;
     await repository.insert(recipe);
     ref.invalidate(favoritesProvider);
   }
 
   Future<void> delete(Recipe recipe) async {
-    recipe.isFavorite = false;
     await repository.delete(recipe.id);
     ref.invalidate(favoritesProvider);
   }
