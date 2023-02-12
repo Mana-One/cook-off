@@ -1,16 +1,19 @@
 # cook_off
 
-A new Flutter project.
+A school project for the ESGI - 2022-2023 5AL1   
+Students:  
+- Paolo Manaois
+- Ifzas Nguyen
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+An application for searching and saving recipes.   
+Powered by [Edamam](https://www.edamam.com/) (The Recipe API)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Requirements   
+.env file in the root directory   
+```
+# Get these values by creating an account and a project on the Edamam website
+APP_KEY=<string>  
+APP_ID=<string>
+```
