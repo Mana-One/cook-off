@@ -1,7 +1,7 @@
-import 'package:cook_off/controllers/favorites_list_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../controllers/favorites_list_controller.dart';
 import '../models/recipe.dart';
 import '../providers/favorites.dart';
 import '../widgets/recipe_item.dart';

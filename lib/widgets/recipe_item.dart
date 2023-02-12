@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../providers/current_recipe.dart';
 import '../models/recipe.dart';
 import '../screens/recipe_details_screen.dart';
 
@@ -15,7 +16,7 @@ class RecipeItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () => _goToDetails(context, recipe),
+      onTap: () => _goToDetails(context, ref, recipe),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
@@ -67,8 +68,10 @@ class RecipeItem extends ConsumerWidget {
 
   void _goToDetails(
     BuildContext context,
+    WidgetRef ref,
     Recipe recipe,
   ) {
+    ref.read(currentRecipeProvider.notifier).replaceCurrentRecipe(recipe);
     RecipeDetailsScreen.navigateTo(context, recipe: recipe);
   }
 }

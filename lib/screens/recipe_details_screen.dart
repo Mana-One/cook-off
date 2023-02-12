@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cook_off/controllers/favorites_list_controller.dart';
-import 'package:cook_off/controllers/shopping_list_controller.dart';
-import 'package:cook_off/models/ingredient.dart';
-import 'package:cook_off/models/recipe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../controllers/shopping_list_controller.dart';
+import '../models/ingredient.dart';
+import '../models/recipe.dart';
+import '../widgets/favorite_button.dart';
 
 class RecipeDetailsScreen extends ConsumerWidget {
   static const String routeName = '/details';
@@ -21,8 +22,6 @@ class RecipeDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(favoritesListController);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(recipe.name),
@@ -62,28 +61,26 @@ class RecipeDetailsScreen extends ConsumerWidget {
                           children: [
                             Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 20),
+                                horizontal: 20,
+                                vertical: 20,
+                              ),
                               child: Text(
                                 recipe.name,
                                 style: Theme.of(context).textTheme.labelLarge,
                               ),
                             ),
+                            const FavoriteButton(),
                             IconButton(
-                              onPressed: () async =>
-                                  _toggleLikeButton(ref, recipe.id),
-                              icon: Icon(recipe.isFavorite
-                                  ? Icons.favorite
-                                  : Icons.favorite_border),
+                              onPressed: () =>
+                                  _addAllIngredients(ref, recipe.ingredients),
+                              icon: const Icon(Icons.add_shopping_cart),
                             ),
-                            IconButton(
-                                onPressed: () =>
-                                    _addAllIngredients(ref, recipe.ingredients),
-                                icon: const Icon(Icons.add_shopping_cart)),
                           ],
                         ),
                         Card(
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25)),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
                           child: SizedBox(
                             height: 200.0,
                             child: ListView.builder(
@@ -98,9 +95,11 @@ class RecipeDetailsScreen extends ConsumerWidget {
                                       children: [
                                         Text(recipe.ingredients?[index].name ??
                                             'No ingredients found'),
-                                        Text(recipe.ingredients?[index].quantity
-                                                .toString() ??
-                                            'No quantity found'),
+                                        Text(
+                                          recipe.ingredients?[index].quantity
+                                                  .toString() ??
+                                              'No quantity found',
+                                        ),
                                         IconButton(
                                           onPressed: () async => _addIngredient(
                                             ref,
@@ -128,29 +127,18 @@ class RecipeDetailsScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _toggleLikeButton(
-    WidgetRef ref,
-    String recipeId,
-  ) async {
-    final isFavorite =
-        await ref.read(favoritesListController).isFavorite(recipeId);
-    (isFavorite)
-        ? await ref.read(favoritesListController).delete(recipe)
-        : await ref.read(favoritesListController).insert(recipe);
-  }
-}
-
-Future<void> _addIngredient(WidgetRef ref, Ingredient? ingredient) async {
-  if (ingredient != null) {
-    ref.read(shoppingListController).addOrUpdate(ingredient);
-  }
-}
-
-Future<void> _addAllIngredients(
-    WidgetRef ref, List<Ingredient>? ingredients) async {
-  if (ingredients != null) {
-    for (var ingredient in ingredients) {
+  Future<void> _addIngredient(WidgetRef ref, Ingredient? ingredient) async {
+    if (ingredient != null) {
       ref.read(shoppingListController).addOrUpdate(ingredient);
+    }
+  }
+
+  Future<void> _addAllIngredients(
+      WidgetRef ref, List<Ingredient>? ingredients) async {
+    if (ingredients != null) {
+      for (var ingredient in ingredients) {
+        ref.read(shoppingListController).addOrUpdate(ingredient);
+      }
     }
   }
 }

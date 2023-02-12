@@ -1,4 +1,4 @@
-import 'package:cook_off/models/ingredient.dart';
+import '../models/ingredient.dart';
 
 class Recipe {
   final String id;

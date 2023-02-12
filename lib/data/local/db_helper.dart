@@ -47,7 +47,7 @@ class DbHelper {
       ''',
     );
 
-    await fixtures(db);
+    // await fixtures(db);
   }
 
   Future<void> fixtures(Database db) async {

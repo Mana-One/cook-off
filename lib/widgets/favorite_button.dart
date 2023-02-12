@@ -1,0 +1,48 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../providers/current_recipe.dart';
+import '../providers/favorites.dart';
+import '../data/local/repositories/favorites_repository.dart';
+import '../providers/favorite_checker.dart';
+
+class FavoriteButton extends ConsumerWidget {
+  const FavoriteButton({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favoriteStatus = ref.watch(favoriteCheckerProvider);
+
+    return favoriteStatus.when(
+      data: (data) {
+        if (data) {
+          return IconButton(
+            onPressed: () => _unmarkAsFavorite(ref),
+            icon: const Icon(Icons.favorite),
+          );
+        }
+        return IconButton(
+          onPressed: () => _markAsFavorite(ref),
+          icon: const Icon(Icons.favorite_border),
+        );
+      },
+      error: (error, stackTrace) => const Icon(Icons.error),
+      loading: () => const CircularProgressIndicator(),
+      skipLoadingOnRefresh: false,
+    );
+  }
+
+  void _markAsFavorite(WidgetRef ref) {
+    final currentRecipe = ref.read(currentRecipeProvider.notifier).current!;
+    ref.read(favoritesRepositoryProvider).insert(currentRecipe);
+    ref.invalidate(favoriteCheckerProvider);
+    ref.invalidate(favoritesProvider);
+  }
+
+  void _unmarkAsFavorite(WidgetRef ref) {
+    final currentRecipe = ref.read(currentRecipeProvider.notifier).current!;
+    ref.read(favoritesRepositoryProvider).delete(currentRecipe.id);
+    ref.invalidate(favoriteCheckerProvider);
+    ref.invalidate(favoritesProvider);
+  }
+}
