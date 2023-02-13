@@ -1,18 +1,27 @@
-import 'dart:convert';
+// import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart';
 
+import '../../../data/remote/dio_client.dart';
 import '../../../models/detailed_recipe.dart';
 import '../../../models/search_input.dart';
 import '../../../models/recipe.dart';
 
-final recipesServiceProvider = Provider((ref) => const RecipesService());
+final recipesServiceProvider = Provider((ref) {
+  final dioClient = ref.read(dioClientProvider);
+  return RecipesService(dioClient: dioClient);
+});
 
 class RecipesService {
-  const RecipesService();
+  final Dio dioClient;
 
-  Future<List<Recipe>> fetchRecipes(SearchInput input) async {
+  const RecipesService({required this.dioClient});
+
+  Future<List<Recipe>> fetchRecipes(
+    SearchInput input,
+    CancelToken? cancelToken,
+  ) async {
     if (input.isEmpty()) {
       return [];
     }
@@ -29,14 +38,12 @@ class RecipesService {
       queryParameters['cuisineType'] = input.filters;
     }
 
-    final Uri uri = Uri(
-      scheme: 'https',
-      host: 'api.edamam.com',
-      path: 'api/recipes/v2',
+    final response = await dioClient.get(
+      '/api/recipes/v2',
       queryParameters: queryParameters,
+      cancelToken: cancelToken,
     );
 
-    final response = await get(uri);
     if (response.statusCode != 200) {
       switch (response.statusCode) {
         case 400:
@@ -48,24 +55,26 @@ class RecipesService {
       }
     }
 
-    final jsonBody = json.decode(response.body)['hits'] as List<dynamic>? ?? [];
+    final jsonBody = response.data['hits'] as List<dynamic>? ?? [];
     return jsonBody.map((e) => Recipe.fromJson(e)).toList();
   }
 
-  Future<DetailedRecipe> find(String id) async {
+  Future<DetailedRecipe> find(
+    String id,
+    CancelToken? cancelToken,
+  ) async {
     final Map<String, dynamic> queryParameters = {
       'app_id': dotenv.get('APP_ID', fallback: ''),
       'app_key': dotenv.get('APP_KEY', fallback: ''),
       'type': 'public',
     };
-    final uri = Uri(
-      scheme: 'https',
-      host: 'api.edamam.com',
-      path: 'api/recipes/v2/$id',
+
+    final response = await dioClient.get(
+      '/api/recipes/v2/$id',
       queryParameters: queryParameters,
+      cancelToken: cancelToken,
     );
 
-    final response = await get(uri);
     if (response.statusCode != 200) {
       switch (response.statusCode) {
         case 400:
@@ -77,38 +86,7 @@ class RecipesService {
       }
     }
 
-    final jsonBody = json.decode(response.body) as Map<String, dynamic>;
+    final jsonBody = response.data;
     return DetailedRecipe.fromJson(jsonBody);
-  }
-
-  Future<Recipe> fetchRecipe(String id) async {
-    final Map<String, dynamic> queryParameters = {
-      'app_id': dotenv.get('APP_ID', fallback: ''),
-      'app_key': dotenv.get('APP_KEY', fallback: ''),
-      'type': 'public',
-    };
-
-    final Uri uri = Uri(
-      scheme: 'https',
-      host: 'api.edamam.com',
-      path: 'api/recipes/v2/$id',
-      queryParameters: queryParameters,
-    );
-
-    final response = await get(uri);
-    if (response.statusCode != 200) {
-      switch (response.statusCode) {
-        case 400:
-          throw Exception('Bad Request');
-        case 401:
-          throw Exception('Invalid app id or app key');
-        case 403:
-          throw Exception('Forbidden action');
-      }
-    }
-
-    final jsonBody =
-        json.decode(response.body)['recipe'] as Map<String, dynamic>;
-    return Recipe.fromJson(jsonBody);
   }
 }
