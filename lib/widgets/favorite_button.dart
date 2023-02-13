@@ -17,7 +17,7 @@ class FavoriteButton extends ConsumerWidget {
       data: (data) {
         if (data) {
           return IconButton(
-            color: Colors.white,
+            color: Theme.of(context).primaryColorDark,
             onPressed: () => _unmarkAsFavorite(ref),
             icon: const Icon(
               Icons.favorite,
@@ -26,7 +26,7 @@ class FavoriteButton extends ConsumerWidget {
           );
         }
         return IconButton(
-          color: Colors.white,
+          color: Theme.of(context).primaryColorDark,
           onPressed: () => _markAsFavorite(ref),
           icon: const Icon(
             Icons.favorite_border,

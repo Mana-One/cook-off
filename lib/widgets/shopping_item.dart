@@ -27,12 +27,17 @@ class ShoppingItem extends ConsumerWidget {
             const SizedBox(width: 20),
             Text(ingredient.name),
             const SizedBox(width: 10),
-            Text('${ingredient.quantity}'),
-            const SizedBox(width: 10),
-            Text(ingredient.measure ?? ''),
+            _showQuantity(context, ingredient),
           ],
         )
       ],
     );
+  }
+
+  Widget _showQuantity(BuildContext context, Ingredient ingredient) {
+    if (ingredient.quantity == 0.0) {
+      return const Text('');
+    }
+    return Text('${ingredient.quantity} ${ingredient.measure ?? ''}');
   }
 }

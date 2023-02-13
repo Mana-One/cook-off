@@ -42,7 +42,13 @@ class RecipeDetails extends ConsumerWidget {
             placeholder: (context, url) => const Center(
               child: CircularProgressIndicator(),
             ),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
+            errorWidget: (context, url, error) => Column(
+              children: const [
+                Icon(Icons.error),
+                SizedBox(height: 5),
+                FavoriteButton(),
+              ],
+            ),
             height: 300,
           ),
           const Expanded(child: IngredientList()),
