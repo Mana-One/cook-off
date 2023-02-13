@@ -22,25 +22,28 @@ class RecipeDetails extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 300,
-            child: Stack(
-              children: [
-                CachedNetworkImage(
-                  imageUrl: detailedRecipe.imageUrl,
-                  placeholder: (context, url) => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                  height: 300,
+          CachedNetworkImage(
+            imageUrl: detailedRecipe.imageUrl,
+            imageBuilder: (context, imageProvider) {
+              return SizedBox(
+                height: 300,
+                child: Stack(
+                  children: [
+                    Image(image: imageProvider),
+                    const Positioned(
+                      bottom: 5,
+                      right: 5,
+                      child: FavoriteButton(),
+                    ),
+                  ],
                 ),
-                const Positioned(
-                  bottom: 5,
-                  right: 5,
-                  child: FavoriteButton(),
-                ),
-              ],
+              );
+            },
+            placeholder: (context, url) => const Center(
+              child: CircularProgressIndicator(),
             ),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+            height: 300,
           ),
           const Expanded(child: IngredientList()),
         ],
