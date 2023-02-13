@@ -9,13 +9,16 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        SearchBar(),
-        const SearchFilterList(),
-        const RecipeList(),
-      ],
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: const [
+          SearchBar(),
+          SearchFilterList(),
+          RecipeList(),
+        ],
+      ),
     );
   }
 }

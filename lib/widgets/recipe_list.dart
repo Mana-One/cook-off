@@ -14,8 +14,13 @@ class RecipeList extends ConsumerWidget {
     return recipes.when(
       data: (data) {
         if (data.isEmpty) {
-          return const Center(child: Text('No match!'));
+          return const Expanded(
+            child: Center(
+              child: Text('No match!'),
+            ),
+          );
         }
+
         return Expanded(
           child: ListView.separated(
             padding: const EdgeInsets.symmetric(

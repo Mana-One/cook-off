@@ -5,15 +5,22 @@ import '../providers/search_query.dart';
 import '../screens/filters_screen.dart';
 
 class SearchBar extends ConsumerWidget {
-  final TextEditingController _controller = TextEditingController();
-  SearchBar({super.key});
+  const SearchBar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isClearable = ref.watch(
       searchQueryProvider.select((value) => value.isNotEmpty),
     );
-    _controller.text = ref.read(searchQueryProvider.notifier).query;
+    final TextEditingController controller = TextEditingController.fromValue(
+      TextEditingValue(
+        text: ref.read(searchQueryProvider),
+        selection: TextSelection.collapsed(
+          offset: ref.read(searchQueryProvider).length,
+        ),
+      ),
+    );
+    // _controller.text = ref.read(searchQueryProvider.notifier).query;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -27,12 +34,16 @@ class SearchBar extends ConsumerWidget {
           ),
         ),
         Expanded(
-          child: TextField(
-            controller: _controller,
+          child: TextFormField(
+            controller: controller,
             decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: 'Recipe name',
-              suffixIcon: _showClearButton(isClearable, ref),
+              border: const UnderlineInputBorder(),
+              labelText: 'Recipe name',
+              suffixIcon: _showClearButton(
+                controller,
+                ref,
+                isClearable,
+              ),
             ),
             onChanged: (value) => _onInputChanged(value, ref),
           ),
@@ -59,13 +70,17 @@ class SearchBar extends ConsumerWidget {
     Navigator.of(context).pushNamed(FiltersScreen.routeName);
   }
 
-  Widget? _showClearButton(bool isClearable, WidgetRef ref) {
+  Widget? _showClearButton(
+    TextEditingController controller,
+    WidgetRef ref,
+    bool isClearable,
+  ) {
     if (!isClearable) {
       return null;
     }
     return IconButton(
       onPressed: () {
-        _controller.clear();
+        controller.clear();
         ref.read(searchQueryProvider.notifier).replaceQuery('');
       },
       icon: const Icon(Icons.clear),
