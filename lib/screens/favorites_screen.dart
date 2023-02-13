@@ -18,7 +18,11 @@ class FavoritesScreen extends ConsumerWidget {
         if (data.isEmpty) {
           return const Center(child: Text('You have no favorite recipes.'));
         }
-        return ListView.builder(
+        return ListView.separated(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 40,
+            vertical: 20,
+          ),
           itemBuilder: (context, index) => Dismissible(
             key: UniqueKey(),
             background: Container(color: Colors.red),
@@ -28,6 +32,9 @@ class FavoritesScreen extends ConsumerWidget {
               data[index],
             ),
             child: RecipeItem(recipe: data[index]),
+          ),
+          separatorBuilder: (context, index) => const SizedBox(
+            height: 20,
           ),
           itemCount: data.length,
         );

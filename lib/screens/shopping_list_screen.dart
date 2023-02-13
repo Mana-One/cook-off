@@ -18,7 +18,11 @@ class ShoppingListScreen extends ConsumerWidget {
         if (data.isEmpty) {
           return const Center(child: Text('Your shopping list is empty.'));
         }
-        return ListView.builder(
+        return ListView.separated(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 20,
+          ),
           itemBuilder: (context, index) => Dismissible(
             key: UniqueKey(),
             background: Container(color: Colors.red),
@@ -28,6 +32,9 @@ class ShoppingListScreen extends ConsumerWidget {
               data[index],
             ),
             child: ShoppingItem(ingredient: data[index]),
+          ),
+          separatorBuilder: (context, index) => const SizedBox(
+            height: 10,
           ),
           itemCount: data.length,
         );

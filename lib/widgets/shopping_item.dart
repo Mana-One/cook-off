@@ -11,33 +11,38 @@ class ShoppingItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              CachedNetworkImage(
-                imageUrl: ingredient.imageUrl,
-                placeholder: (context, url) => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-                width: 100,
-                height: 100,
+    return Column(
+      children: [
+        Row(
+          children: [
+            CachedNetworkImage(
+              imageUrl: ingredient.imageUrl,
+              placeholder: (context, url) => const Center(
+                child: CircularProgressIndicator(),
               ),
-              const SizedBox(
-                width: 20,
-              ),
-              Text(ingredient.name),
-              const SizedBox(
-                width: 10,
-              ),
-              Text('${ingredient.quantity}'),
-            ],
-          )
-        ],
-      ),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+              width: 100,
+              height: 100,
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            Text(
+              ingredient.name,
+            ),
+            const SizedBox(width: 10),
+            Text(
+              '${ingredient.quantity}',
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              ingredient.measure ?? '',
+            ),
+          ],
+        )
+      ],
     );
   }
 }

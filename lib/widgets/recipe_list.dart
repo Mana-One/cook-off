@@ -17,8 +17,15 @@ class RecipeList extends ConsumerWidget {
           return const Center(child: Text('No match!'));
         }
         return Expanded(
-          child: ListView.builder(
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 40,
+              vertical: 20,
+            ),
             itemBuilder: (context, index) => RecipeItem(recipe: data[index]),
+            separatorBuilder: (context, index) => const SizedBox(
+              height: 20,
+            ),
             itemCount: data.length,
           ),
         );

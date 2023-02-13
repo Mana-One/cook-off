@@ -29,7 +29,7 @@ class DbHelper {
         name TEXT NOT NULL,
         quantity REAL NOT NULL,
         image_url TEXT NOT NULL,
-        measure TEXT,
+        measure TEXT
       )
       ''',
     );
@@ -37,7 +37,7 @@ class DbHelper {
       '''CREATE TABLE favorites (
         id TEXT PRIMARY KEY,
         name TEXT NOT NULL,
-        image_url TEXT NOT NULL,
+        image_url TEXT NOT NULL
       )
       ''',
     );
