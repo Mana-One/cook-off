@@ -22,16 +22,23 @@ class IngredientList extends ConsumerWidget {
           children: [
             SizedBox(
               height: 50,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Ingredients: '),
-                  IconButton(
-                    onPressed: () =>
-                        _addAllIngredients(context, ref, ingredients),
-                    icon: const Icon(Icons.add_shopping_cart),
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Ingredients: ',
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    IconButton(
+                      onPressed: () =>
+                          _addAllIngredients(context, ref, ingredients),
+                      icon: const Icon(Icons.add_shopping_cart),
+                    ),
+                  ],
+                ),
               ),
             ),
             Expanded(

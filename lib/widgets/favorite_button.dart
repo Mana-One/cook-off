@@ -19,13 +19,19 @@ class FavoriteButton extends ConsumerWidget {
           return IconButton(
             color: Colors.white,
             onPressed: () => _unmarkAsFavorite(ref),
-            icon: const Icon(Icons.favorite),
+            icon: const Icon(
+              Icons.favorite,
+              size: 40,
+            ),
           );
         }
         return IconButton(
           color: Colors.white,
           onPressed: () => _markAsFavorite(ref),
-          icon: const Icon(Icons.favorite_border),
+          icon: const Icon(
+            Icons.favorite_border,
+            size: 40,
+          ),
         );
       },
       error: (error, stackTrace) => const Icon(Icons.error),
