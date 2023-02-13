@@ -7,9 +7,7 @@ import 'router/app_router.dart';
 Future<void> main() async {
   await dotenv.load();
   runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
+    const ProviderScope(child: MyApp()),
   );
 }
 
@@ -40,9 +38,7 @@ class MyApp extends StatelessWidget {
         chipTheme: const ChipThemeData(
           backgroundColor: Color.fromRGBO(148, 95, 241, 1),
           deleteIconColor: Colors.white,
-          labelStyle: TextStyle(
-            color: Colors.white,
-          ),
+          labelStyle: TextStyle(color: Colors.white),
         ),
       ),
       routes: AppRouter.routes(),

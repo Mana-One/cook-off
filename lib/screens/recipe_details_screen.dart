@@ -19,9 +19,7 @@ class RecipeDetailsScreen extends ConsumerWidget {
       ),
       body: detailedRecipe.when(
         data: (data) => RecipeDetails(detailedRecipe: data),
-        error: (error, stackTrace) => Center(
-          child: Text(error.toString()),
-        ),
+        error: (error, stackTrace) => Center(child: Text(error.toString())),
         loading: () => const Center(child: CircularProgressIndicator()),
         skipLoadingOnRefresh: false,
       ),

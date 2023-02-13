@@ -16,8 +16,7 @@ class SearchBar extends ConsumerWidget {
       TextEditingValue(
         text: ref.read(searchQueryProvider),
         selection: TextSelection.collapsed(
-          offset: ref.read(searchQueryProvider).length,
-        ),
+            offset: ref.read(searchQueryProvider).length),
       ),
     );
     // _controller.text = ref.read(searchQueryProvider.notifier).query;

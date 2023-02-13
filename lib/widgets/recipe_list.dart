@@ -15,9 +15,7 @@ class RecipeList extends ConsumerWidget {
       data: (data) {
         if (data.isEmpty) {
           return const Expanded(
-            child: Center(
-              child: Text('No match!'),
-            ),
+            child: Center(child: Text('No match!')),
           );
         }
 
@@ -28,9 +26,7 @@ class RecipeList extends ConsumerWidget {
               vertical: 20,
             ),
             itemBuilder: (context, index) => RecipeItem(recipe: data[index]),
-            separatorBuilder: (context, index) => const SizedBox(
-              height: 20,
-            ),
+            separatorBuilder: (context, index) => const SizedBox(height: 20),
             itemCount: data.length,
           ),
         );

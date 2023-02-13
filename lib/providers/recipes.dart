@@ -10,5 +10,8 @@ final recipesProvider = FutureProvider<List<Recipe>>((ref) async {
   final searchInput = await ref.watch(searchInputProvider.future);
 
   final cancelToken = ref.createCancelToken();
-  return repository.fetchRecipes(searchInput, cancelToken);
+  return repository.fetchRecipes(
+    searchInput,
+    cancelToken,
+  );
 });

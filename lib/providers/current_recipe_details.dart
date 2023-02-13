@@ -13,5 +13,8 @@ final currentRecipeDetailsProvider = FutureProvider<DetailedRecipe>((ref) {
   }
 
   final cancelToken = ref.createCancelToken();
-  return repository.find(currentRecipe.id, cancelToken);
+  return repository.find(
+    currentRecipe.id,
+    cancelToken,
+  );
 });

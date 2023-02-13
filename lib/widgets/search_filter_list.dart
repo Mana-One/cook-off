@@ -17,12 +17,10 @@ class SearchFilterList extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) => SearchFilterItem(
-            name: activeFilters[index],
-          ),
-          separatorBuilder: (context, index) => const SizedBox(
-            width: 5,
-          ),
+          itemBuilder: (context, index) {
+            return SearchFilterItem(name: activeFilters[index]);
+          },
+          separatorBuilder: (context, index) => const SizedBox(width: 5),
           itemCount: activeFilters.length,
         ),
       ),

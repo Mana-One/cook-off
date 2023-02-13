@@ -21,7 +21,10 @@ class AppRouter {
       case '/home':
         final index = settings.arguments;
         if (index is int) {
-          screen = HomeScreen(title: 'Cook off', startingIndex: index);
+          screen = HomeScreen(
+            title: 'Cook off',
+            startingIndex: index,
+          );
         }
         break;
     }

@@ -13,9 +13,7 @@ class SearchFilterItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Chip(
-      label: Text(
-        name,
-      ),
+      label: Text(name),
       onDeleted: () => _removeFilter(ref),
     );
   }

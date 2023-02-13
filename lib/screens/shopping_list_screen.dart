@@ -33,9 +33,7 @@ class ShoppingListScreen extends ConsumerWidget {
             ),
             child: ShoppingItem(ingredient: data[index]),
           ),
-          separatorBuilder: (context, index) => const SizedBox(
-            height: 10,
-          ),
+          separatorBuilder: (context, index) => const SizedBox(height: 10),
           itemCount: data.length,
         );
       },

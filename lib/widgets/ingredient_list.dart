@@ -33,8 +33,9 @@ class IngredientList extends ConsumerWidget {
                       style: Theme.of(context).textTheme.headline6,
                     ),
                     IconButton(
-                      onPressed: () =>
-                          _addAllIngredients(context, ref, ingredients),
+                      onPressed: () {
+                        _addAllIngredients(context, ref, ingredients);
+                      },
                       icon: const Icon(Icons.add_shopping_cart),
                     ),
                   ],
@@ -43,9 +44,9 @@ class IngredientList extends ConsumerWidget {
             ),
             Expanded(
               child: ListView.separated(
-                itemBuilder: (context, index) => IngredientItem(
-                  ingredient: ingredients[index],
-                ),
+                itemBuilder: (context, index) {
+                  return IngredientItem(ingredient: ingredients[index]);
+                },
                 separatorBuilder: (context, index) => const SizedBox(height: 5),
                 itemCount: ingredients.length,
               ),
@@ -63,7 +64,7 @@ class IngredientList extends ConsumerWidget {
     WidgetRef ref,
     List<Ingredient> ingredients,
   ) async {
-    for (var ingredient in ingredients) {
+    for (final ingredient in ingredients) {
       await ref.read(shoppingListController).addOrUpdate(ingredient);
     }
     showDialog(

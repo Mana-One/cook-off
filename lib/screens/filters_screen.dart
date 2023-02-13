@@ -54,20 +54,21 @@ class FiltersScreen extends ConsumerWidget {
                 itemBuilder: (context, index) => SearchFilterSelector(
                   name: filters[index],
                 ),
-                separatorBuilder: (context, index) => const SizedBox(
-                  height: 5,
-                ),
+                separatorBuilder: (context, index) => const SizedBox(height: 5),
                 itemCount: filters.length,
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+            padding: const EdgeInsets.only(
+              left: 10,
+              right: 10,
+              bottom: 10,
+            ),
             child: ElevatedButton(
               onPressed: () => _clearFilters(ref),
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size.fromHeight(50),
-              ),
+                  minimumSize: const Size.fromHeight(50)),
               child: const Text('Clear filters'),
             ),
           ),

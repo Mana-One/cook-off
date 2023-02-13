@@ -17,29 +17,19 @@ class ShoppingItem extends ConsumerWidget {
           children: [
             CachedNetworkImage(
               imageUrl: ingredient.imageUrl,
-              placeholder: (context, url) => const Center(
-                child: CircularProgressIndicator(),
-              ),
+              placeholder: (context, url) {
+                return const Center(child: CircularProgressIndicator());
+              },
               errorWidget: (context, url, error) => const Icon(Icons.error),
               width: 100,
               height: 100,
             ),
-            const SizedBox(
-              width: 20,
-            ),
-            Text(
-              ingredient.name,
-            ),
+            const SizedBox(width: 20),
+            Text(ingredient.name),
             const SizedBox(width: 10),
-            Text(
-              '${ingredient.quantity}',
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              ingredient.measure ?? '',
-            ),
+            Text('${ingredient.quantity}'),
+            const SizedBox(width: 10),
+            Text(ingredient.measure ?? ''),
           ],
         )
       ],

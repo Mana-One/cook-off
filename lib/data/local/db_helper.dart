@@ -13,7 +13,11 @@ class DbHelper {
   Future<Database> get database async => _db ??= await _initDatabase();
 
   Future<Database> _initDatabase() async {
-    String path = p.join(await getDatabasesPath(), _databaseName);
+    final path = p.join(
+      await getDatabasesPath(),
+      _databaseName,
+    );
+
     return await openDatabase(
       path,
       version: _databaseVersion,

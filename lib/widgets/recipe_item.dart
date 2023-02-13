@@ -19,9 +19,7 @@ class RecipeItem extends ConsumerWidget {
     return GestureDetector(
       onTap: () => _goToDetails(context, ref, recipe),
       child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         child: Row(
           children: [
             Expanded(
@@ -41,8 +39,9 @@ class RecipeItem extends ConsumerWidget {
                         placeholder: (context, url) => const Center(
                           child: CircularProgressIndicator(),
                         ),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                        errorWidget: (context, url, error) {
+                          return const Icon(Icons.error);
+                        },
                         fit: BoxFit.fitWidth,
                       ),
                     ),

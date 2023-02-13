@@ -12,8 +12,11 @@ extension RefDebounceExtension on Ref {
   Future<void> debounce(Duration duration) {
     final completer = Completer<void>();
     final timer = Timer(duration, () {
-      if (!completer.isCompleted) completer.complete();
+      if (!completer.isCompleted) {
+        completer.complete();
+      }
     });
+
     onDispose(() {
       timer.cancel();
       if (!completer.isCompleted) {

@@ -6,9 +6,7 @@ class SearchFiltersNotifier extends StateNotifier<List<String>> {
   List<String> get activeFilters => state;
 
   void replaceFilters(List<String> newFilters) {
-    state = [
-      ...newFilters,
-    ];
+    state = [...newFilters];
   }
 
   void addFilter(String newFilter) {
@@ -25,9 +23,7 @@ class SearchFiltersNotifier extends StateNotifier<List<String>> {
     List<String> currentCuisineTypes = state;
     currentCuisineTypes.remove(removedCuisineType);
 
-    state = [
-      ...currentCuisineTypes,
-    ];
+    state = [...currentCuisineTypes];
   }
 
   bool isEmpty() => state.isEmpty;

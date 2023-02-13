@@ -10,5 +10,8 @@ final searchInputProvider = FutureProvider<SearchInput>((ref) async {
   final List<String> filters = ref.watch(searchFiltersProvider);
 
   await ref.debounce(const Duration(milliseconds: 500));
-  return SearchInput(query: query, filters: filters);
+  return SearchInput(
+    query: query,
+    filters: filters,
+  );
 });
