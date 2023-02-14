@@ -16,21 +16,29 @@ class FavoriteButton extends ConsumerWidget {
     return favoriteStatus.when(
       data: (data) {
         if (data) {
-          return IconButton(
-            color: Theme.of(context).primaryColorDark,
+          return ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              backgroundColor: Colors.white,
+            ),
             onPressed: () => _unmarkAsFavorite(ref),
-            icon: const Icon(
+            child: Icon(
               Icons.favorite,
-              size: 40,
+              size: 20,
+              color: Theme.of(context).primaryColor,
             ),
           );
         }
-        return IconButton(
-          color: Theme.of(context).primaryColorDark,
+        return ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shape: const CircleBorder(),
+            backgroundColor: Colors.white,
+          ),
           onPressed: () => _markAsFavorite(ref),
-          icon: const Icon(
+          child: Icon(
             Icons.favorite_border,
-            size: 40,
+            size: 20,
+            color: Theme.of(context).primaryColor,
           ),
         );
       },
